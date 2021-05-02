@@ -8,11 +8,13 @@ import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import FriendsScreen from './src/screens/FriendsScreen';
 import HistoryScreen from './src/screens/HistoryScreen';
-import TrackCreateScreen from './src/screens/TrackCreateScreen';
+import DrinkDetailScreen from './src/screens/DrinkDetailScreen';
+import BuyDrinkScreen from './src/screens/BuyDrinkScreen';
 import MainScreen from './src/screens/MainScreen';
 import { Provider as AuthProvider } from './src/context/AuthContext';
 import { setNavigator } from './src/navigationRef';
 import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
+import { Provider as DrinksProvider } from './src/context/DrinksContext';
 
 const switchNavigator = createSwitchNavigator({
     ResolveAuth: ResolveAuthScreen,
@@ -22,9 +24,10 @@ const switchNavigator = createSwitchNavigator({
     }),
     mainFlow: createBottomTabNavigator({
         Home: createStackNavigator({
-            Main: MainScreen
+            Main: MainScreen,
+            DrinkDetail: DrinkDetailScreen,
+            BuyDrink: BuyDrinkScreen
         }),
-        TrackCreate: TrackCreateScreen,
         Account: AccountScreen,
         History: HistoryScreen,
         Friends: FriendsScreen
@@ -36,9 +39,11 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
     return (
-        <AuthProvider>
-            <App ref={(navigator) => {setNavigator(navigator)}}/>
-        </AuthProvider>
+        <DrinksProvider>
+            <AuthProvider>
+                <App ref={(navigator) => {setNavigator(navigator)}}/>
+            </AuthProvider>
+        </DrinksProvider>
     );
 };
 
